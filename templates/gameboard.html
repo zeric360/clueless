@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clue-less Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.js"></script>
+    <link rel="stylesheet" href="index.css"><style>
+        /* General styling */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fafafa;
+            position: relative;
+        }
+
+        h1 {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Character */
+        .character {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute; /* Character moves relative to the body */
+            z-index: 10;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Room styling */
+        .room, .horizontal_hallway, .vertical_hallway {
+            position: absolute; /* Each element is placed manually */
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Rooms */
+        #Study {
+            width: 150px;
+            height: 150px;
+            background-color: #f2f2f2;
+            top: 100px;
+            left: 100px;
+        }
+
+        #Hall {
+            width: 150px;
+            height: 150px;
+            background-color: #f2f2f2;
+            top: 100px;
+            left: 350px;
+        }
+
+        #Lounge {
+            width: 150px;
+            height: 150px;
+            background-color: #f2f2f2;
+            top: 100px;
+            left: 600px;
+        }
+
+        /* Hallways */
+        #Study_Hall {
+            width: 100px;
+            height: 50px;
+            background-color: #d3d3d3;
+            top: 150px;
+            left: 250px;
+        }
+
+        #Hall_Lounge {
+            width: 100px;
+            height: 50px;
+            background-color: #d3d3d3;
+            top: 150px;
+            left: 500px;
+        }
+
+        /* Add other rooms and hallways similarly */
+    </style>>
+</head>
+<body>
+    <h1>Clue-Less</h1>
+    
+    <!-- Rooms -->
+    <div id="Study" class="room">Study</div>
+    <div id="Study_Hall" class="horizontal_hallway">Study_Hall</div>
+    <div id="Hall" class="room">Hall</div>
+    <div id="Hall_Lounge" class="horizontal_hallway">Hall_Lounge</div>
+    <div id="Lounge" class="room">Lounge</div>
+
+    <!-- Character -->
+    <div class="character" id="Miss Scarlet">Miss Scarlet</div>
+
+    <script>
+        const positions = {
+            Study: { x: 100, y: 100 },
+            Study_Hall: { x: 250, y: 100 },
+            Hall: { x: 350, y: 100 },
+            Hall_Lounge: { x: 500, y: 100 },
+            Lounge: { x: 600, y: 100 },
+        };
+
+        const character = document.getElementById("Miss Scarlet");  //maybe have if statements for each character to check whos turn is it
+        const characterSize = 30;
+
+        // Connect to the Socket.IO server
+        const socket = io();
+
+        // Move the character to the target position
+        function moveCharacter(targetId) {
+            const target = positions[targetId];
+            if (target) {
+                character.style.left = `${target.x + 150 / 2 - characterSize / 2}px`;
+                character.style.top = `${target.y + 150 / 2 - characterSize / 2}px`;
+            } else {
+                console.error(`Target ${targetId} not found.`);
+            }
+        }
+
+        // Add click listeners for each room or hallway
+        document.querySelectorAll('.room, .horizontal_hallway').forEach(element => {
+            element.addEventListener('click', () => {
+                const targetId = element.id;
+                // Emit the move event to the server
+                socket.emit('move_character', { target: targetId });
+            });
+        });
+
+        // Listen for updates from the server
+        socket.on('update_character', data => {
+            const targetId = data.target;
+            console.log(`Moving to: ${targetId}`);
+            moveCharacter(targetId);
+        });
+
+        // Set initial position
+        moveCharacter('Study');
+    </script>
+</body>
+</html>

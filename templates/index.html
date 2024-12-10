@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clue-less Game</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Socket.IO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.js"></script>
+    <!-- External JavaScript -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</head>
+
+<body>
+
+    
+    <h1>Welcome to Clue-less!</h1>
+
+    <!-- Name and character selection section -->
+    <section id="name-section">
+        <form id="name-form">
+            <input id="playerName" autocomplete="off" placeholder="Enter your name" required>
+            <select id="character-selection" required>
+                <option value="" disabled selected>Select your character</option>
+                <option value="Miss Scarlet">Miss Scarlet</option>
+                <option value="Colonel Mustard">Colonel Mustard</option>
+                <option value="Mrs. White">Mrs. White</option>
+                <option value="Mr. Green">Mr. Green</option>
+                <option value="Mrs. Peacock">Mrs. Peacock</option>
+                <option value="Professor Plum">Professor Plum</option>
+            </select>
+            <button type="submit">Join</button>
+        </form>
+    </section>
+
+    <!-- Game log -->
+    <div id="game-log">
+        <h3>Game Log</h3>
+        <ul id="log-messages"></ul>
+    </div>
+
+    <!-- Chat section -->
+    <section id="chat-section">
+        <form id="send-message">
+            <input id="myMessage" autocomplete="off" placeholder="Type your message here">
+            <button type="submit">Send</button>
+        </form>
+        <div id="assigned-info">
+            <p id="character-display">Character: Loading...</p>
+            <p id="cards-display">Cards: Loading...</p>
+        </div>
+    </section>
+
+    <!-- Action section -->
+    <section id="action-section">
+        <h3>Choose Your Action</h3>
+        <label for="actionDropdown">Select an Action:</label>
+        <select id="actionDropdown">
+            <option value="" disabled selected>Select an Action</option>
+        </select>
+        <button id="submitActionButton">Submit</button>
+    </section>
+
+    <!-- Dropdown section -->
+    <section id="dropdown-section">
+        <h3>Make Your Selection</h3>
+        <label for="playerDropdown">Select a Player:</label>
+        <select id="playerDropdown">
+            <option value="" disabled selected>Select a Player</option>
+        </select>
+        <label for="weaponDropdown">Select a Weapon:</label>
+        <select id="weaponDropdown">
+            <option value="" disabled selected>Select a Weapon</option>
+        </select>
+        <label for="roomDropdown">Select a Room:</label>
+        <select id="roomDropdown">
+            <option value="" disabled selected>Select a Room</option>
+        </select>
+        <button id="submitButton">Submit</button>
+    </section>
+
+    <!-- Action section -->
+    <section id="dropdown-movement-section">
+        <h3>Choose Your Movement</h3>
+        <label for="movementDropdown">Select a Movement:</label>
+        <select id="movementDropdown">
+            <option value="" disabled selected>Select a Movement</option>
+        </select>
+        <button id="submitMovementButton">Submit</button>
+    </section>
+
+    <section id="card_suggestion">
+        <label for="cardDropdown">Select a Card:</label>
+        <select id="cardDropdown">
+            <option value="" disabled selected>Select a Card</option>
+        </select>
+        <button id="submitCardButton">Submit</button>
+    </section>
+
+    <section id="game_over">
+        <h3>Game Over! Please stay in the game to continue disproving suggestions!</h3>
+    </section>
+   
+    
+</body>
+<body>
+    
+
+<!-- Rooms -->
+<div id="Study" class="room">Study</div>
+<div id="Study_Hall" class="horizontal_hallway">Study_Hall</div>
+<div id="Hall" class="room">Hall</div>
+<div id="Hall_Lounge" class="horizontal_hallway">Hall_Lounge</div>
+<div id="Lounge" class="room">Lounge</div>
+<div id="Study_Library" class="vertical_hallway">Study_Library</div>
+<div id="Library" class="room">Library</div>
+<div id="Library_Billiard" class="horizontal_hallway">Library_Billiard</div>
+<div id="Billiard" class="room">Billiard Room</div>
+<div id="Billiard_Dining" class="horizontal_hallway">Billiard_Dining</div>
+<div id="Dining" class="room">Dining Room</div>
+<div id="Hall_Billiard" class="vertical_hallway">Hall_Billiard</div>
+<div id="Lounge_Dining" class="vertical_hallway">Lounge_Dining</div>
+<div id="Library_Conservatory" class="vertical_hallway">Library_Conservatory</div>
+<div id="Conservatory" class="room">Conservatory</div>
+<div id="Conservatory_Ballroom" class="horizontal_hallway">Conservatory_Ballroom</div>
+<div id="Ballroom" class="room">Ballroom</div>
+<div id="Ballroom_Kitchen" class="horizontal_hallway">Ballroom_Kitchen</div>
+<div id="Kitchen" class="room">Kitchen</div>
+<div id="Dining_Kitchen" class="vertical_hallway">Dining_Kitchen</div>
+<div id="Billiard_Ballroom" class="vertical_hallway">Billiard_Ballroom</div>
+
+
+<!-- Character -->
+<div class="Miss_Scarlet" id="Miss_Scarlet">Miss Scarlet</div>
+<div class="Colonel_Mustard" id="Colonel_Mustard">Colonel Mustard</div>
+<div class="Mrs_White" id="Mrs_White">Mrs. White</div>
+<div class="Mr_Green" id="Mr_Green">Mr. Green</div>
+<div class="Mrs_Peacock" id="Mrs_Peacock">Mrs. Peacock</div>
+<div class="Professor_Plum" id="Professor_Plum">Professor Plum</div>
+
+
+
+
+
+
+</body>
+
+</html>
